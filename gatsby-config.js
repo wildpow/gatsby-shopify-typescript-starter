@@ -1,4 +1,8 @@
-require("ts-node").register({ files: true })
+require('ts-node').register({ files: true })
+// const resolveConfig = require('tailwindcss/resolveConfig')
+const tailwindConfig = require('./tailwind.config.js')
+
+// const fullConfig = resolveConfig(tailwindConfig)
 
 module.exports = {
   siteMetadata: {
@@ -8,7 +12,7 @@ module.exports = {
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
-    "gatsby-plugin-typescript",
+    'gatsby-plugin-typescript',
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -28,6 +32,16 @@ module.exports = {
         theme_color: `#663399`,
         display: `minimal-ui`,
         icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+      },
+    },
+    {
+      resolve: `gatsby-plugin-postcss`,
+      options: {
+        postCssPlugins: [
+          require(`tailwindcss`)(tailwindConfig),
+          require(`autoprefixer`),
+          ...(process.env.NODE_ENV === `production` ? [require(`cssnano`)] : []),
+        ],
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
