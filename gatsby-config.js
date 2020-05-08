@@ -2,6 +2,9 @@ require('ts-node').register({ files: true })
 // const resolveConfig = require('tailwindcss/resolveConfig')
 const tailwindConfig = require('./tailwind.config.js')
 
+require('dotenv').config({
+  path: `.env`,
+})
 // const fullConfig = resolveConfig(tailwindConfig)
 
 module.exports = {
@@ -22,6 +25,15 @@ module.exports = {
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
+    {
+      resolve: `gatsby-source-shopify`,
+      options: {
+        // The domain name of your Shopify shop.
+        shopName: process.env.GATSBY_STORE,
+        // The storefront access token
+        accessToken: process.env.GATSBY_API,
+      },
+    },
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
